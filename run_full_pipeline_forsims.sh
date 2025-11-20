@@ -5,7 +5,8 @@
 #SBATCH -t 4:00:00
 #SBATCH --qos tiger-short
 
-#SBATCH --output=/scratch/gpfs/sn0543/stellar_flare_sims/for_paper/final_sims/maps_2200_%j.out
+#change to your scratch directory
+#SBATCH --output=/scratch/gpfs/sn0543/stellar_flare_sims/for_paper/final_sims/maps_3000_%j.out
 #SBATCH --mail-user=simran.nerval@mail.utoronto.ca
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=FAIL
@@ -22,19 +23,33 @@ tod="${tod_num}.${ar}:${freq}"
 
 timecode="15661"
 
-amp="2200"
+amp="3000"
 
-
+#just for plotting cutouts because we know where the injected source it
 ra=79.02308333
 dec=-29.36022
 
-datadir="/home/sn0543/stellar_flare_sims/TOD_files_for_stats/amp_${amp}/"
+#change below directories as needed
+basedir="/home/sn0543/stellar_flare_sims"
 
-outdir="/scratch/gpfs/sn0543/stellar_flare_sims/for_paper/final_sims/amp_${amp}/"
+datadir="${basedir}/TOD_files_for_stats/amp_${amp}/"
 
-forestdir="/scratch/gpfs/sn0543/stellar_flare_sims/"
+outdir="${basedir}/for_paper/final_sims/amp_${amp}/"
 
+#where the trained forest is located
+forestdir="${basedir}"
+
+#where the simulated TODs are located
 toddir="/scratch/gpfs/eh9397/stellar_flare_sim/final_sims/"
+
+#where the mapmaking info is located
+mapdatadir="/home/snaess/project/actpol/mapdata"
+
+#where the classification code is located
+classcodedir="/home/sn0543/Glitch_Classification/classification_code"
+
+#where the cuts and mapmaking code is located
+mapcodedir="${basedir}"
 
 mkdir -p "${datadir}"
 mkdir -p "${outdir}"
@@ -58,12 +73,12 @@ module load so_stack/210707
 
 export DOT_MOBY2=$HOME/.moby2
 
-cd /home/sn0543/Glitch_Classification/classification_code
+cd "${classcodedir}"
 
 
 echo "${tod}" > ${datadir}/sims_${tod_num}_${ar}_${freq}_amp${amp}_h${halflife}_TOD.txt
 
-cd /home/sn0543/Glitch_Classification/classification_code
+cd "${classcodedir}"
 
 python sims_compute_filtering_values.py --datadir "${datadir}"  --outputdir "${outdir}" --todfile "sims_${tod_num}_${ar}_${freq}_amp${amp}_h${halflife}_TOD.txt" --tod_sim_file "${toddir}" --output_df_name "df_sims_${tod}_amp${amp}_h${halflife}" --half_life "${halflife}" --amp "${amp}" --ACT
 
@@ -79,7 +94,7 @@ mkdir -p "${outdir}/new_cuts_depth1/h${halflife}/${timecode}"
 
 mkdir -p "${outdir}/new_cuts_depth1_notmodified/h${halflife}/${timecode}"
 
-cd /home/sn0543/stellar_flare_sims
+cd "${mapcodedir}"
 
 mpirun -n 1 python making_cuts_objects.py --datadir "${outdir}"  --outputdir "${outdir}" --toddir "${toddir}" --tod "${tod}" --time_code "${timecode}" --half_life "${halflife}" --amp "${amp}"
 
@@ -96,12 +111,12 @@ cut_basic = cut_quality = cut_noiseest = "${outdir}/new_cuts_depth1/h${halflife}
 cut           = {"type":"union", "subs":[cut_quality, "{skn}/sidelobe_cut/sidelobe_cut_dr6v4_pa{pa}_{freq}_20230316.hdf:cuts"]}
 EOF
 
-mpirun -n 1 python depth_1_for_sims.py @${datadir}/sims_${tod_num}_${ar}_${freq}_amp${amp}_h${halflife}_TOD.txt --file_override=@${outdir}/override_h${halflife}_notmodified.txt /home/snaess/project/actpol/mapdata/area/advact.fits ${outdir}/sims_h${halflife} --verbosity=2 --niter=10 --tod_sim_file "${toddir}/${tod}_amp${amp}_h${halflife}.npy"
+mpirun -n 1 python depth_1_for_sims.py @${datadir}/sims_${tod_num}_${ar}_${freq}_amp${amp}_h${halflife}_TOD.txt --file_override=@${outdir}/override_h${halflife}_notmodified.txt ${mapdatadir}/area/advact.fits ${outdir}/sims_h${halflife} --verbosity=2 --niter=10 --tod_sim_file "${toddir}/${tod}_amp${amp}_h${halflife}.npy"
 
 echo "Made regular maps"
 
 
-mpirun -n 1 python depth_1_for_sims.py @${datadir}/sims_${tod_num}_${ar}_${freq}_amp${amp}_h${halflife}_TOD.txt --file_override=@${outdir}/override_h${halflife}.txt /home/snaess/project/actpol/mapdata/area/advact.fits ${outdir}/sims_h${halflife}_modifiedcuts --verbosity=2 --niter=10 --tod_sim_file "${toddir}/${tod}_amp${amp}_h${halflife}.npy"
+mpirun -n 1 python depth_1_for_sims.py @${datadir}/sims_${tod_num}_${ar}_${freq}_amp${amp}_h${halflife}_TOD.txt --file_override=@${outdir}/override_h${halflife}.txt ${mapdatadir}/area/advact.fits ${outdir}/sims_h${halflife}_modifiedcuts --verbosity=2 --niter=10 --tod_sim_file "${toddir}/${tod}_amp${amp}_h${halflife}.npy"
 
 echo "Made maps with modified cuts"
 

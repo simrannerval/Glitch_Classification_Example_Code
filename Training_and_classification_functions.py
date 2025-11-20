@@ -1,3 +1,7 @@
+'''
+Functions for training random forest and classifying glitches.
+'''
+
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 import matplotlib.pyplot as plt

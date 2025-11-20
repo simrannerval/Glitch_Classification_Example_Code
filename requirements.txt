@@ -1,0 +1,13 @@
+numpy
+scipy
+pandas
+scikit-learn
+matplotlib
+pixell
+astropy
+
+
+# ACT Specific repos required to run full pipeline
+# moby2
+# cutslib
+# enlib

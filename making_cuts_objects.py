@@ -1,3 +1,7 @@
+"""
+Generates ACT cut objects (masks) for the simulated source TODs for mapmaking.
+"""
+
 import pandas as pd
 import numpy as np
 import os

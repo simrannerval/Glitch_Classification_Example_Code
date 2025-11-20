@@ -1,3 +1,7 @@
+"""
+Trains the random forest or applies a pre-trained forest and classifies glitches.
+"""
+
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 import matplotlib.pyplot as plt
@@ -21,9 +25,9 @@ parser.add_argument("--outputdir", type = str, help = "Name of output directory"
 
 parser.add_argument("--datadir", type = str, help = "Name of directory with dataframes", default = os.getcwd())
 
-parser.add_argument("--n_trees", type = float, help = "Number of trees for random forest", default = 50)
+parser.add_argument("--n_trees", type = int, help = "Number of trees for random forest", default = 50)
 
-parser.add_argument("--max_depth", type = float, help = "Max depth for random forest", default = 15)
+parser.add_argument("--max_depth", type = int, help = "Max depth for random forest", default = 15)
 
 parser.add_argument("--trained", help = "Have you already trained your forest?", action = "store_true")
 

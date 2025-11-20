@@ -1,3 +1,7 @@
+'''
+Functions for computing statistics for classifying and positions of glitches.
+'''
+
 import numpy as np
 import scipy.stats as ss
 import cutslib as cl

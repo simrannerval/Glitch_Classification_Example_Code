@@ -1,6 +1,7 @@
 '''
-This code is written by Sigurd Naess with only minor modifications by Simran Nerval to work with sims.
-It is only included in the repo for completeness as it is needed to run the pipeline. 
+Depth-1 (single scan) mapmaking script. This code is written by Sigurd Naess with only minor 
+modifications by Simran Nerval to work with sims. It is only included in the repo for 
+completeness as it is needed to run the pipeline. 
 '''
 
 

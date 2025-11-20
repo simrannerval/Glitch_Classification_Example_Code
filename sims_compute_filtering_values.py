@@ -1,3 +1,7 @@
+"""
+Computes summary statistics for glitches to use for classification.
+"""
+
 import numpy as np
 import os
 os.environ['DOT_MOBY2']='/home/sn0543/.moby2'
@@ -241,12 +245,12 @@ if len(np.shape(tods)) == 0:
 else:
     max_processes = mp.cpu_count()
 
-    proccess_num = np.min([len(tods), max_processes])
+    process_num = np.min([len(tods), max_processes])
 
 
     if __name__ == '__main__':
 
-        with mp.Pool(processes = proccess_num) as pool:  
+        with mp.Pool(processes = process_num) as pool:  
                                     
             dfs = pool.map(compute_all, tods)
 
