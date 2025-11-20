@@ -1,4 +1,4 @@
-Example code for the glitch classification pipeline outlined in Nerval et al. (2025, 2503.10798) for TODS with injected simulated transient sources.
+Example code for the glitch classification pipeline outlined in [Nerval et al. (2025, 2503.10798)](https://arxiv.org/abs/2503.10798) for TODS with injected simulated transient sources.
 
 - ACT_DR6_detector_glitch_classification.ipynb: Example notebook exaplianing more about how the cuts pipeline works, this can also be found [here](https://github.com/ACTCollaboration/DR6_Notebooks/blob/main/ACT_DR6_detector_glitch_classification.ipynb).
 - filter_stats_functions.py: Functions used to compute the summary statistcis per glicth.
