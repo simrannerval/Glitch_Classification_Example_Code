@@ -1,7 +1,24 @@
-## Example code for the glitch classification pipeline outlined in [Nerval et al. (2025, 2503.10798)](https://arxiv.org/abs/2503.10798) for time-ordered data (TODs) with injected simulated transient sources.
+## Example code for the glitch classification pipeline outlined in [Nerval et al. (2025, 2503.10798)](https://arxiv.org/abs/2503.10798) for time-ordered data (TODs) with injected simulated transient sources. The pipeline differentiates between instrumental noise, cosmic rays, and true astrophysical sources in the TODs during pre-processing.
 
+**Key Features:**
+* **Feature Extraction:** Calculates spatial and temporal summary statistics from the glitch TODs and focal plane layouts.
+* **Machine Learning:** Uses a random forest to classify glitches and identify point sources with >70% probability.
+* **Mapmaking Integration:** Modifies "cuts" objects to excise bad data while preserving transient astrophysical signals (like variable stars) for depth-1 (single scan) mapmaking.
 
-## Description of work:
+## Files Included in the Repo:
+
+**Note on Dependencies:** The full pipeline relies on [moby2](https://phy-act1.princeton.edu/public/software/moby2/) and cutslib (private ACT repo). However, the "ACT_DR6_detector_glitch_classification.ipynb" notebook uses a simplified version, [moby2_lite](https://github.com/guanyilun/moby2_light), which combines some features of moby2 and cutslib to be able to run the example notebook.
+
+- **ACT_DR6_detector_glitch_classification.ipynb:** Example notebook explaining more about how the cuts pipeline works, this can also be found [here](https://github.com/ACTCollaboration/DR6_Notebooks/blob/main/ACT_DR6_detector_glitch_classification.ipynb).
+- **filter_stats_functions.py:** Functions used to compute the summary statistics per glitch.
+- **sims_compute_filtering_values.py:** Code used to compute the summary stats and make a dataframe with the glitches.
+- **Training_and_classification_functions.py:** Functions used to train the random forest and classify glitches.
+- **Forest_and_classify.py:** Code used to classify glitches.
+- **making_cuts_objects.py:** Code used to make modified cuts objects for mapmaking.
+- **depth_1_for_sims.py:** This code is written by Sigurd Naess with only minor modifications by Simran Nerval to work with sims. It is only included in the repo for completeness as it is needed to run the pipeline.
+- **run_full_pipeline_forsims.sh:** Example script for how to run the whole glitch detection, glitch classification, and depth-1 (or single scan) mapmaking pipeline.
+
+## Scientific Context and Description of work:
 
 In the ACT survey, the data timestreams of all detectors are packaged into files known as "time-ordered data streams" (TODs), each containing roughly 11 minutes worth of data. Using knowledge of the telescope pointing, which is recorded during data collection, the TODs are later processed into microwave sky maps using maximum likelihood map-making. The mapmaker is specifically vulnerable to biases from short, high-amplitude, non-Gaussian data bursts in the TOD, and therefore depends on these bursts being excised from the TOD before map-making. Such transient events can be caused by sporadic pathologies from the electronic readout system, cosmic rays, electromagnetic interference, radio frequency interference modulated by telescope motion, ionizing radiation, digitization artifacts, etc. Cosmic rays, for example, sometimes produce rapid spikes in the TODs of single detectors and may sometimes also warm up a region of the detector polarization array near the impact, thereby inducing a signal spike in multiple detectors. We refer to all of these transient phenomena as "glitches".
 
@@ -17,23 +34,10 @@ Bright astrophysical point sources can also cause high-amplitude, non-Gaussian s
 </p>
 
 
-In the [Nerval et al. (2025, 2503.10798)](https://arxiv.org/abs/2503.10798) paper, we present a the first algorithm to differentiate between electronic noise, cosmic rays, and point sources, enabling the removal of undesired signals while retaining true astrophysical signals during TOD pre-processing. Our algorithm utilizes machine learning to classifying these glitches, using statistics that summarize the focal plane layout and TODs of the glitches as features of a random forest. Any source that is found at with high probability (>70%) is then removed from the cuts objects prior to mapmaking. 
+In the [Nerval et al. (2025, 2503.10798)](https://arxiv.org/abs/2503.10798) paper, we present the first algorithm to differentiate between electronic noise, cosmic rays, and point sources, enabling the removal of undesired signals while retaining true astrophysical signals during TOD pre-processing. Our algorithm utilizes machine learning to classify these glitches, using statistics that summarize the focal plane layout and TODs of the glitches as features of a random forest. Any source that is found with high probability (>70%) is then removed from the cuts objects prior to mapmaking. 
 
 <p align="center">
   <img src="figures/combined_figure_flowchart_and_maps.png" width="80%" />
   <br />
   <strong>Figure 2:</strong> <em> Left: Flow chart showing how the ACT pipeline goes from raw data to maps. The portions we have modified are shown in purple, and the new glitch classification pipeline is shown in teal. Right: Half-degree cut-outs of ACT depth-1 maps with a simulated source with an amplitude of 12,000mJy and a 5000s half-life. The original depth-1 map made with ACT standard cuts algorithm can be seen in the left panel. The same depth-1 map but with features identified by the random forest to be a PS with high-probability (>70%) included can be seen in the right panel. Note that the source was almost completely cut out using the original method, which could result in it not being detected during map-based searches, but using our modified pipeline, it was recovered.</em>
 </p>
-
-## Files Included in the Repo:
-
-> **Note on Dependencies:** The full pipeline relies on [moby2](https://phy-act1.princeton.edu/public/software/moby2/) and cutslib (private ACT repo). However, the 'ACT_DR6_detector_glitch_classification.ipynb' notebook uses a simplified version, [moby2_lite](https://github.com/guanyilun/moby2_light), which combines some features of moby2 and cutslib to be able to run the example notebook.
-
-- **ACT_DR6_detector_glitch_classification.ipynb:** Example notebook explaining more about how the cuts pipeline works, this can also be found [here](https://github.com/ACTCollaboration/DR6_Notebooks/blob/main/ACT_DR6_detector_glitch_classification.ipynb).
-- **filter_stats_functions.py:** Functions used to compute the summary statistics per glitch.
-- **sims_compute_filtering_values.py:** Code used to compute the summary stats and make a dataframe with the glitches.
-- **Training_and_classification_functions.py:** Functions used to train the random forest and classify glitches.
-- **Forest_and_classify.py:** Code used to classify glitches.
-- **making_cuts_objects.py:** Code used to make modified cuts objects for mapmaking.
-- **depth_1_for_sims.py:** This code is written by Sigurd Naess with only minor modifications by Simran Nerval to work with sims. It is only included in the repo for completeness as it is needed to run the pipeline.
-- **run_full_pipeline_forsims.sh:** Example script for how to run the whole glitch detection, glitch classification, and depth-1 (or single scan) mapmaking pipeline.
