@@ -9,7 +9,7 @@
 
 **Note on Dependencies:** The full pipeline relies on [moby2](https://phy-act1.princeton.edu/public/software/moby2/) and cutslib (private ACT repo). However, the "ACT_DR6_detector_glitch_classification.ipynb" notebook uses a simplified version, [moby2_lite](https://github.com/guanyilun/moby2_light), which combines some features of moby2 and cutslib to be able to run the example notebook.
 
-- **ACT_DR6_detector_glitch_classification.ipynb:** Example notebook explaining more about how the cuts pipeline works, this can also be found [here](https://github.com/ACTCollaboration/DR6_Notebooks/blob/main/ACT_DR6_detector_glitch_classification.ipynb).
+- **ACT_DR6_detector_glitch_classification.ipynb:** Example notebook written by Simran Nerval, Erika Hornecker, and Yilun Guan explaining more about how the cuts pipeline works, this can also be found [here](https://github.com/ACTCollaboration/DR6_Notebooks/blob/main/ACT_DR6_detector_glitch_classification.ipynb).
 - **filter_stats_functions.py:** Functions used to compute the summary statistics per glitch.
 - **sims_compute_filtering_values.py:** Code used to compute the summary stats and make a dataframe with the glitches.
 - **Training_and_classification_functions.py:** Functions used to train the random forest and classify glitches.
