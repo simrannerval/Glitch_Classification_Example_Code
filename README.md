@@ -27,7 +27,7 @@ Bright astrophysical point sources can also cause high-amplitude, non-Gaussian s
 <p align="center">
   <img src="figures/combined_figure_glitch_examples.png" width="75%" />
   <br />
-  <strong>Figure 1:</strong> <em> The four categories we use in our classifications. From top to bottom we show example detrended TODs for a point source (PS), a point source with another coincident glitch (which is a cosmic ray in this case, labeled as PS+), a cosmic ray (CR), and an electronic glitch (EG). We show the timestreams for all affected detectors, along with the focal plane diagrams in the upper left of each panel, which show the affected detectors in red.</em>
+  <strong>Figure 1:</strong> <em> The four categories we use in our classifications. We show example detrended TODs for a point source (PS), a point source with another coincident glitch (which is a cosmic ray in this case, labeled as PS+), a cosmic ray (CR), and an electronic glitch (EG). We show the timestreams for all affected detectors, along with the focal plane diagrams in the upper left of each panel, which show the affected detectors in red.</em>
 </p>
 
 
