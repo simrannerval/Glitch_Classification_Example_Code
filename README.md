@@ -11,7 +11,7 @@
 
 - **ACT_DR6_detector_glitch_classification.ipynb:** Example notebook written by Simran Nerval, Erika Hornecker, and Yilun Guan explaining more about how the cuts pipeline works, this can also be found [here](https://github.com/ACTCollaboration/DR6_Notebooks/blob/main/ACT_DR6_detector_glitch_classification.ipynb).
 - **filter_stats_functions.py:** Functions used to compute the summary statistics per glitch.
-- **sims_compute_filtering_values.py:** Code used to compute the summary stats and make a dataframe with the glitches.
+- **sims_compute_filtering_values.py:** Code used to compute the summary stats and construct a dataframe with the glitches.
 - **Training_and_classification_functions.py:** Functions used to train the random forest and classify glitches.
 - **Forest_and_classify.py:** Code used to classify glitches.
 - **making_cuts_objects.py:** Code used to make modified cuts objects for mapmaking.
@@ -31,7 +31,7 @@ Bright astrophysical point sources can also cause high-amplitude, non-Gaussian s
 </p>
 
 
-In the [Nerval et al. (2025, 2503.10798)](https://arxiv.org/abs/2503.10798) paper, we present the first algorithm to differentiate between electronic noise, cosmic rays, and point sources, enabling the removal of undesired signals while retaining true astrophysical signals during TOD pre-processing. Our algorithm utilizes machine learning to classify these glitches, using statistics that summarize the focal plane layout and TODs of the glitches as features of a random forest. Any source that is found with high probability (>70%) is then removed from the cuts objects prior to mapmaking. 
+In the [Nerval et al. (2025, 2503.10798)](https://arxiv.org/abs/2503.10798) paper, we present the first algorithm to differentiate between electronic noise, cosmic rays, and point sources, enabling the removal of undesired signals while retaining true astrophysical signals during TOD pre-processing. Our algorithm utilizes machine learning to classify these glitches, using statistics that summarize the focal plane layout and TODs of the glitches as features for a random forest. Any source that is found with high probability (>70%) is then removed from the cuts objects prior to mapmaking. A diagram outlining our pipeline and example maps comparing our method to the original ACT pipeline can be seen in Figure 2.   
 
 <p align="center">
   <img src="figures/combined_figure_flowchart_and_maps.png" width="80%" />
